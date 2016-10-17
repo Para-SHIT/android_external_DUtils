@@ -96,7 +96,6 @@ public class ActionHandler {
     public static final String SYSTEMUI_TASK_NOTIFICATION_PANEL = "task_notification_panel";
     public static final String SYSTEMUI_TASK_SCREENSHOT = "task_screenshot";
     public static final String SYSTEMUI_TASK_REGION_SCREENSHOT = "task_region_screenshot";
-    public static final String SYSTEMUI_TASK_SCREENRECORD = "task_screenrecord";
     // public static final String SYSTEMUI_TASK_AUDIORECORD =
     // "task_audiorecord";
     public static final String SYSTEMUI_TASK_EXPANDED_DESKTOP = "task_expanded_desktop";
@@ -138,7 +137,6 @@ public class ActionHandler {
     public static final String SYSTEMUI_TASK_ONE_HANDED_MODE_RIGHT = "task_one_handed_mode_right";
 
     public static final String INTENT_SHOW_POWER_MENU = "action_handler_show_power_menu";
-    public static final String INTENT_TOGGLE_SCREENRECORD = "action_handler_toggle_screenrecord";
     public static final String INTENT_SCREENSHOT = "action_handler_screenshot";
     public static final String INTENT_REGION_SCREENSHOT = "action_handler_region_screenshot";
 
@@ -148,7 +146,6 @@ public class ActionHandler {
         NotificationPanel(SYSTEMUI_TASK_NOTIFICATION_PANEL, SYSTEMUI, "label_action_notification_panel", "ic_sysbar_notification_panel"),
         Screenshot(SYSTEMUI_TASK_SCREENSHOT, SYSTEMUI, "label_action_screenshot", "ic_sysbar_screenshot"),
         RegionScreenshot(SYSTEMUI_TASK_REGION_SCREENSHOT, SYSTEMUI, "label_action_region_screenshot", "ic_sysbar_region_screenshot"),
-        Screenrecord(SYSTEMUI_TASK_SCREENRECORD, SYSTEMUI, "label_action_screenrecord", "ic_sysbar_record_screen"),
         ExpandedDesktop(SYSTEMUI_TASK_EXPANDED_DESKTOP, SYSTEMUI, "label_action_expanded_desktop", "ic_sysbar_expanded_desktop"),
         ScreenOff(SYSTEMUI_TASK_SCREENOFF, SYSTEMUI, "label_action_screen_off", "ic_sysbar_screen_off"),
         KillApp(SYSTEMUI_TASK_KILL_PROCESS, SYSTEMUI, "label_action_force_close_app", "ic_sysbar_killtask"),
@@ -212,7 +209,7 @@ public class ActionHandler {
             SystemAction.Overview,SystemAction.Menu,
             SystemAction.Back, SystemAction.VoiceSearch,
             SystemAction.Home, SystemAction.ExpandedDesktop,
-            SystemAction.Screenrecord, SystemAction.Ime,
+            SystemAction.Ime,
             SystemAction.StopScreenPinning, SystemAction.ImeArrowDown,
             SystemAction.ImeArrowLeft, SystemAction.ImeArrowRight,
             SystemAction.ImeArrowUp, SystemAction.InAppSearch,
@@ -280,11 +277,6 @@ public class ActionHandler {
             } else if (TextUtils.equals(action, SYSTEMUI_TASK_CAMERA)
                     && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
                 continue;
-            } else if (TextUtils.equals(action, SYSTEMUI_TASK_SCREENRECORD)) {
-                if (!DUActionUtils.getBoolean(context, "config_enableScreenrecordChord",
-                        DUActionUtils.PACKAGE_ANDROID)) {
-                    continue;
-                }
             } else if (TextUtils.equals(action, SYSTEMUI_TASK_EDITING_SMARTBAR)) {
                 // don't allow smartbar editor on Fling
                 if (Settings.Secure.getIntForUser(context.getContentResolver(),
@@ -478,9 +470,6 @@ public class ActionHandler {
             return;
         } else if (action.equals(SYSTEMUI_TASK_REGION_SCREENSHOT)) {
             sendCommandToWindowManager(new Intent(INTENT_REGION_SCREENSHOT));
-            return;
-        } else if (action.equals(SYSTEMUI_TASK_SCREENRECORD)) {
-            sendCommandToWindowManager(new Intent(INTENT_TOGGLE_SCREENRECORD));
             return;
             // } else if (action.equals(SYSTEMUI_TASK_AUDIORECORD)) {
             // takeAudiorecord();
